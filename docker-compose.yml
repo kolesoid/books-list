@@ -1,0 +1,25 @@
+version: '3'
+
+networks:
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+  postgres:
+    driver: ${VOLUMES_DRIVER}
+
+services:
+### PostgreSQL ###########################################
+    postgres:
+      build: ./postgres
+      volumes:
+        - ./data/postgres:/var/lib/postgresql/data
+        - ./data/dump:/dump
+      ports:
+        - "5636:5432"
+      environment:
+        - POSTGRES_DB=app
+        - POSTGRES_USER=app
+        - POSTGRES_PASSWORD=app
+      networks:
+        - backend
